@@ -1,1 +1,11 @@
 @import '~bootstrap/scss/bootstrap';
+
+body {
+    background-color: $light;
+}
+
+.not-found {
+    background: url(../src/404.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
