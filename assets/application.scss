@@ -9,3 +9,14 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+.brand-link {
+   color: black;
+   font-size: 30px;
+   font-weight: bold;
+
+   &:hover {
+       color: rgb(128, 121, 121);
+       text-decoration: none;
+   }
+}

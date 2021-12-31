@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Form, Button, Row, Col,
+  Form, Button, Row, Col, Container
 } from 'react-bootstrap';
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
@@ -74,17 +74,19 @@ const LoginForm = () => {
   );
 
   return (
-    <Row className="h-100 justify-content-center align-items-center">
-      <Col sm="10" md="8" xl="6" className="p-5 border rounded bg-white shadow">
-        <h1 className="text-center">Войти</h1>
-        {renderForm()}
-        <div className="text-center">
-          <span>Нет аккаунта?</span>
-          {' '}
-          <Link to="/signup">Регистрация</Link>
-        </div>
-      </Col>
-    </Row>
+    <Container className="h-100">
+      <Row className="h-100 justify-content-center align-items-center">
+        <Col sm="10" md="8" xl="6" className="p-5 border rounded bg-white shadow">
+          <h1 className="text-center ">Войти</h1>
+          {renderForm()}
+          <div className="text-center">
+            <span>Нет аккаунта?</span>
+            {' '}
+            <Link to="/signup">Регистрация</Link>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

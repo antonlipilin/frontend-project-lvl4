@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import useAuth from '../hooks/index.jsx';
 import authContext from '../contexts/index.jsx';
+import Nav from './Nav.jsx';
 import LoginForm from './LoginForm.jsx';
 import NotFound from './NotFound.jsx';
 import Chat from './Chat.jsx';
@@ -34,6 +35,7 @@ const PrivateRoute = ({ children }) => {
 const App = () => (
   <AuthProvider>
     <Router>
+      <Nav />
       <Routes>
         <Route
           path="/"
