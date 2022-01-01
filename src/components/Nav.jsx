@@ -1,4 +1,5 @@
 import { Navbar, Container } from 'react-bootstrap';
+import '../../assets/Nav.scss';
 import { Link } from 'react-router-dom';
 import React from 'react';
 

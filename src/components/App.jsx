@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
 } from 'react-router-dom';
+import '../../assets/App.scss';
 import useAuth from '../hooks/index.jsx';
 import authContext from '../contexts/index.jsx';
 import Nav from './Nav.jsx';

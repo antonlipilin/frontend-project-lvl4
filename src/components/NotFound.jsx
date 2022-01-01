@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../assets/NotFound.scss';
 import { Link } from 'react-router-dom';
 import { Col, Row, Container } from 'react-bootstrap';
 
