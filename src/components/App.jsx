@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import '../../assets/App.scss';
+import store from '../slices/index.js';
 import useAuth from '../hooks/index.jsx';
 import authContext from '../contexts/index.jsx';
 import Nav from './Nav.jsx';
@@ -34,23 +36,25 @@ const PrivateRoute = ({ children }) => {
 };
 
 const App = () => (
-  <AuthProvider>
-    <Router>
-      <Nav />
-      <Routes>
-        <Route
-          path="/"
-          element={(
-            <PrivateRoute>
-              <Chat />
-            </PrivateRoute>
-          )}
-        />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
-  </AuthProvider>
+  <Provider store={store}>
+    <AuthProvider>
+      <Router>
+        <Nav />
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <PrivateRoute>
+                <Chat />
+              </PrivateRoute>
+            )}
+          />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  </Provider>
 );
 
 export default App;
