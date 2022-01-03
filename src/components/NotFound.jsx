@@ -9,7 +9,7 @@ const NotFound = () => (
       <Col xs="12" className="text-center">
         <Link to="/" className="btn btn-outline-primary">Вернуться на главную</Link>
       </Col>
-      <Col xs="10" className="not-found h-50 text-center" />
+      <Col xs="10" className="not-found h-50" />
     </Row>
   </Container>
 );
