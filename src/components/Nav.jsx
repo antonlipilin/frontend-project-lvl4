@@ -5,7 +5,7 @@ import React from 'react';
 import LogoutButton from './LogoutButton.jsx';
 
 const Nav = () => (
-  <Navbar bg="white" className="p-3 shadow">
+  <Navbar bg="white" expand="sm" className="p-3 shadow">
     <Container>
       <Navbar.Brand>
         <Link to="/" className="brand-link">MyChat</Link>
