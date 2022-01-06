@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import '../../assets/App.scss';
 import store from '../slices/index.js';
 import useAuth from '../hooks/index.jsx';
-import authContext from '../contexts/index.jsx';
+import authContext from '../contexts/authentication.jsx';
 import Nav from './Nav.jsx';
 import LoginForm from './LoginForm.jsx';
 import NotFound from './NotFound.jsx';
