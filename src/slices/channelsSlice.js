@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import getAuthHeader from '../getAuthHeader.js';
@@ -19,17 +20,20 @@ const channelsSlice = createSlice({
     addChannel: channelsAdapter.addOne,
     removeChannel: channelsAdapter.removeOne,
     renameChannel: channelsAdapter.updateOne,
+    changeChannel: (state, action) => {
+      const { id } = action.payload;
+      state.currentChannelId = id;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchChannels.fulfilled, (state, action) => {
       const { payload } = action;
       channelsAdapter.setAll(state, payload.channels);
-      // eslint-disable-next-line no-param-reassign
       state.currentChannelId = payload.currentChannelId;
     });
   },
 });
 
-export const { addChannel, removeChannel, renameChannel } = channelsSlice.actions;
+export const { addChannel, removeChannel, renameChannel, changeChannel } = channelsSlice.actions;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 export default channelsSlice.reducer;

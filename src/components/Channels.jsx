@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Col, Nav, Button, ButtonGroup, Dropdown,
 } from 'react-bootstrap';
-import { fetchChannels, selectors } from '../slices/channelsSlice.js';
+import { fetchChannels, selectors, changeChannel } from '../slices/channelsSlice.js';
 
 const Channels = () => {
   const channels = useSelector(selectors.selectAll);
@@ -16,25 +15,18 @@ const Channels = () => {
   }, []);
 
   const renderChannel = ({ id, name, removable }) => {
-    const buttonClasses = cn('btn text-left text-truncate w-100 mb-1', {
-      'btn-light': id !== currentChannelId,
-      'btn-secondary': id === currentChannelId,
-    });
-    const dropdownTogglerClasses = cn('flex-grow-0 btn', {
-      'btn-light': id !== currentChannelId,
-      'btn-secondary': id === currentChannelId,
-    });
+    const variant = id === currentChannelId ? 'secondary' : 'light';
 
     if (removable) {
       return (
         <Nav.Item as="li" className="w-100" key={id}>
           <Dropdown as={ButtonGroup} className="d-flex">
-            <Button className={buttonClasses}>
+            <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeChannel({ id }))}>
               <span>#</span>
               {' '}
               {name}
             </Button>
-            <Dropdown.Toggle split className={dropdownTogglerClasses} />
+            <Dropdown.Toggle split variant={variant} className="flex-grow-0" />
             <Dropdown.Menu>
               <Dropdown.Item href="#">Удалить</Dropdown.Item>
               <Dropdown.Item href="#">Переименовать</Dropdown.Item>
@@ -46,7 +38,7 @@ const Channels = () => {
 
     return (
       <Nav.Item as="li" className="w-100" key={id}>
-        <Button className={buttonClasses}>
+        <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeChannel({ id }))}>
           <span>#</span>
           {' '}
           {name}
