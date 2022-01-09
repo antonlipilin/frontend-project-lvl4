@@ -4,7 +4,7 @@ import {
   ButtonGroup, Button, Dropdown, Nav,
 } from 'react-bootstrap';
 import { setModalInfo } from '../slices/UISlice.js';
-import { changeChannel } from '../slices/channelsSlice.js';
+import { changeCurrentChannel } from '../slices/channelsSlice.js';
 
 const Channel = ({ item }) => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Channel = ({ item }) => {
     return (
       <Nav.Item as="li" className="w-100">
         <Dropdown as={ButtonGroup} className="d-flex">
-          <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeChannel({ id }))}>
+          <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeCurrentChannel({ id }))}>
             <span>#</span>
             {' '}
             {name}
@@ -34,7 +34,7 @@ const Channel = ({ item }) => {
 
   return (
     <Nav.Item as="li" className="w-100">
-      <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeChannel({ id }))}>
+      <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeCurrentChannel({ id }))}>
         <span>#</span>
         {' '}
         {name}
