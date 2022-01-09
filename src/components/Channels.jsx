@@ -1,50 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Col, Nav, Button, ButtonGroup, Dropdown,
+  Col, Nav, Button,
 } from 'react-bootstrap';
-import { fetchChannels, selectors, changeChannel } from '../slices/channelsSlice.js';
+import getModal from './modals/index.js';
+import {
+  fetchChannels, selectors, addChannel, removeChannel, renameChannel,
+} from '../slices/channelsSlice.js';
+import { SocketContext } from '../contexts/socket.jsx';
+import { setModalInfo } from '../slices/UISlice.js';
+import Channel from './Channel.jsx';
 
 const Channels = () => {
   const channels = useSelector(selectors.selectAll);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const socket = useContext(SocketContext);
+  const modal = useSelector((state) => state.UI.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchChannels());
   }, []);
 
-  const renderChannel = ({ id, name, removable }) => {
-    const variant = id === currentChannelId ? 'secondary' : 'light';
+  useEffect(() => {
+    socket.on('newChannel', (response) => {
+      console.log(response, 'add new channel');
+      dispatch(addChannel(response));
+    });
 
-    if (removable) {
-      return (
-        <Nav.Item as="li" className="w-100" key={id}>
-          <Dropdown as={ButtonGroup} className="d-flex">
-            <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeChannel({ id }))}>
-              <span>#</span>
-              {' '}
-              {name}
-            </Button>
-            <Dropdown.Toggle split variant={variant} className="flex-grow-0" />
-            <Dropdown.Menu>
-              <Dropdown.Item href="#">Удалить</Dropdown.Item>
-              <Dropdown.Item href="#">Переименовать</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Nav.Item>
-      );
+    socket.on('removeChannel', (response) => {
+      console.log(response, 'remove channel');
+      dispatch(removeChannel(response.id));
+    });
+
+    socket.on('renameChannel', (msg) => {
+      console.log(msg, 'rename channel');
+      const { id, name } = msg;
+      const channelData = { id, changes: { name } };
+      dispatch(renameChannel(channelData));
+    });
+  }, []);
+
+  const renderModal = () => {
+    const { modalType, item } = modal;
+
+    if (!modalType) {
+      return null;
     }
 
-    return (
-      <Nav.Item as="li" className="w-100" key={id}>
-        <Button variant={variant} className="text-left text-truncate w-100" type="button" onClick={() => dispatch(changeChannel({ id }))}>
-          <span>#</span>
-          {' '}
-          {name}
-        </Button>
-      </Nav.Item>
-    );
+    const handleModalClose = () => dispatch(setModalInfo({ modalType: null, item: null }));
+
+    const Component = getModal(modalType);
+    return <Component item={item} handleModalClose={handleModalClose} />;
   };
 
   const renderChannels = () => {
@@ -52,17 +58,18 @@ const Channels = () => {
       return null;
     }
 
-    return channels.map(renderChannel);
+    return channels.map((item) => <Channel item={item} key={item.id} />);
   };
 
   return (
     <Col xs={4} md={3} className="bg-light border-right pt-5 px-2">
       <div className="d-flex justify-content-between align-items-center mb-2 pl-2">
         <span>Каналы</span>
-        <Button variant="outline-primary" size="sm">+</Button>
+        <Button variant="outline-primary" size="sm" onClick={() => dispatch(setModalInfo({ modalType: 'adding', item: null }))}>+</Button>
       </div>
       <Nav variant="pills" fill className="flex-column" as="ul">
         {renderChannels()}
+        {renderModal()}
       </Nav>
     </Col>
   );
