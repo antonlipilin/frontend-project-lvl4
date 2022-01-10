@@ -9,6 +9,7 @@ import useAuth from '../hooks/index.jsx';
 import AuthContext from '../contexts/authentication.jsx';
 import Nav from './Nav.jsx';
 import LoginForm from './LoginForm.jsx';
+import SignupForm from './SignupForm.jsx';
 import NotFound from './NotFound.jsx';
 import Chat from './Chat.jsx';
 
@@ -50,6 +51,7 @@ const App = () => (
             )}
           />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
