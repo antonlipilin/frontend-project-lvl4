@@ -4,11 +4,13 @@ import {
   Form, Button, Row, Col, Container,
 } from 'react-bootstrap';
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import useAuth from '../hooks/index.jsx';
 
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
+  const { t } = useTranslation();
   const auth = useAuth();
   const navigate = useNavigate();
   const inputRef = useRef();
@@ -42,34 +44,34 @@ const LoginForm = () => {
   const renderForm = () => (
     <Form onSubmit={formik.handleSubmit} className="mb-3">
       <Form.Group controlId="username" className="mb-3">
-        <Form.Label>Введите логин</Form.Label>
+        <Form.Label>{t('loginForm.login')}</Form.Label>
         <Form.Control
           size="lg"
           type="text"
           required
           ref={inputRef}
           value={formik.values.username}
-          placeholder="Логин"
+          placeholder={t('loginForm.loginPlaceholder')}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           isInvalid={authFailed}
         />
       </Form.Group>
       <Form.Group controlId="password" className="mb-3">
-        <Form.Label>Введите пароль</Form.Label>
+        <Form.Label>{t('loginForm.password')}</Form.Label>
         <Form.Control
           size="lg"
           type="password"
-          placeholder="Пароль"
+          placeholder={t('loginForm.passwordPlaceholder')}
           required
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           isInvalid={authFailed}
         />
-        <Form.Control.Feedback type="invalid">Неверный логин или пароль. Проверьте правильность введёных данных</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">{t('errors.authFailed')}</Form.Control.Feedback>
       </Form.Group>
-      <Button variant="outline-primary" className="w-100" type="submit">Войти</Button>
+      <Button variant="outline-primary" className="w-100" type="submit">{t('loginForm.button')}</Button>
     </Form>
   );
 
@@ -77,12 +79,12 @@ const LoginForm = () => {
     <Container className="h-100">
       <Row className="h-100 justify-content-center align-items-center">
         <Col sm="10" md="8" xl="6" className="p-5 border rounded bg-white shadow">
-          <h1 className="text-center ">Войти</h1>
+          <h1 className="text-center ">{t('loginForm.heading')}</h1>
           {renderForm()}
           <div className="text-center">
-            <span>Нет аккаунта?</span>
+            <span>{t('loginForm.text')}</span>
             {' '}
-            <Link to="/signup">Регистрация</Link>
+            <Link to="/signup">{t('loginForm.link')}</Link>
           </div>
         </Col>
       </Row>

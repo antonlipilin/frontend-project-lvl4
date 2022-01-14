@@ -1,13 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Form, InputGroup, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SocketContext } from '../contexts/socket.jsx';
 import { addMessage } from '../slices/messagesSlice.js';
 
-const NewMessageForm = () => {
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+const NewMessageForm = ({ currentChannelId }) => {
   const dispatch = useDispatch();
+  const inputRef = useRef();
+  const { t } = useTranslation();
   const socket = useContext(SocketContext);
 
   useEffect(() => {
@@ -16,6 +18,10 @@ const NewMessageForm = () => {
       dispatch(addMessage(msg));
     });
   }, []);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -37,10 +43,11 @@ const NewMessageForm = () => {
       <Form onSubmit={formik.handleSubmit}>
         <InputGroup>
           <Form.Control
-            placeholder="Введите сообщение..."
+            placeholder={t('chat.newMessagePlaceholder')}
             value={formik.values.text}
             onChange={formik.handleChange}
             name="text"
+            ref={inputRef}
           />
           <Button variant="outline-primary" type="submit" disabled={!formik.dirty}>&#10140;</Button>
         </InputGroup>

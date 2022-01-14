@@ -6,11 +6,13 @@ import {
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/index.jsx';
 
 const SignupForm = () => {
   const [regFailed, setRegFailed] = useState(false);
   const auth = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const inputRef = useRef();
 
@@ -26,15 +28,15 @@ const SignupForm = () => {
     },
     validationSchema: yup.object({
       username: yup.string()
-        .min(3, 'Минимальная длина логина - 3 символа')
-        .max(20, 'Максимальная длина логина - 20 символов')
-        .required('Обязательное поле'),
+        .min(3, t('errors.minLength3'))
+        .max(20, t('errors.maxLength20'))
+        .required(t('errors.required')),
       password: yup.string()
-        .min(6, 'Минимальная длина пароля - 6 символов')
-        .required('Обязательное поле'),
+        .min(6, t('errors.minLength6'))
+        .required(t('errors.required')),
       confirmPassword: yup.string()
-        .oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
-        .required('Обязательное поле'),
+        .oneOf([yup.ref('password'), null], t('errors.confirmPassword'))
+        .required(t('errors.required')),
     }),
     onSubmit: async (values) => {
       try {
@@ -56,14 +58,14 @@ const SignupForm = () => {
   const renderForm = () => (
     <Form onSubmit={formik.handleSubmit} className="mb-3">
       <Form.Group controlId="username" className="mb-3">
-        <Form.Label>Введите логин</Form.Label>
+        <Form.Label>{t('signupForm.login')}</Form.Label>
         <Form.Control
           size="lg"
           type="text"
           required
           ref={inputRef}
           value={formik.values.username}
-          placeholder="Логин"
+          placeholder={t('signupForm.loginPlaceholder')}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           isInvalid={regFailed || (formik.touched.username && formik.errors.username)}
@@ -71,11 +73,11 @@ const SignupForm = () => {
         <Form.Control.Feedback type="invalid">{formik.errors.username ? formik.errors.username : null}</Form.Control.Feedback>
       </Form.Group>
       <Form.Group controlId="password" className="mb-3">
-        <Form.Label>Введите пароль</Form.Label>
+        <Form.Label>{t('signupForm.password')}</Form.Label>
         <Form.Control
           size="lg"
           type="password"
-          placeholder="Пароль"
+          placeholder={t('signupForm.passwordPlaceholder')}
           required
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -85,20 +87,20 @@ const SignupForm = () => {
         <Form.Control.Feedback type="invalid">{formik.errors.password ? formik.errors.password : null}</Form.Control.Feedback>
       </Form.Group>
       <Form.Group controlId="confirmPassword" className="mb-3">
-        <Form.Label>Подтвердите пароль</Form.Label>
+        <Form.Label>{t('signupForm.confirmPassword')}</Form.Label>
         <Form.Control
           size="lg"
           type="password"
           required
           value={formik.values.confirmPassword}
-          placeholder="Подтверждение пароля"
+          placeholder={t('signupForm.confirmPasswordPlaceholder')}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           isInvalid={regFailed || (formik.touched.confirmPassword && formik.errors.confirmPassword)}
         />
-        <Form.Control.Feedback type="invalid">{regFailed ? 'Такой пользователь уже существует' : formik.errors.confirmPassword}</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">{regFailed ? t('errors.registrationFailed') : formik.errors.confirmPassword}</Form.Control.Feedback>
       </Form.Group>
-      <Button variant="outline-primary" className="w-100" type="submit">Зарегестрироваться</Button>
+      <Button variant="outline-primary" className="w-100" type="submit">{t('signupForm.button')}</Button>
     </Form>
   );
 
@@ -106,7 +108,7 @@ const SignupForm = () => {
     <Container className="h-100">
       <Row className="h-100 justify-content-center align-items-center">
         <Col sm="10" md="8" xl="6" className="p-5 border rounded bg-white shadow">
-          <h1 className="text-center ">Регистрация</h1>
+          <h1 className="text-center ">{t('signupForm.heading')}</h1>
           {renderForm()}
         </Col>
       </Row>

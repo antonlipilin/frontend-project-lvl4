@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Col, Nav, Button,
@@ -12,6 +13,7 @@ import { setModalInfo } from '../slices/UISlice.js';
 import Channel from './Channel.jsx';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const channels = useSelector(selectors.selectAll);
   const socket = useContext(SocketContext);
   const modal = useSelector((state) => state.UI.modal);
@@ -64,7 +66,7 @@ const Channels = () => {
   return (
     <Col xs={4} md={3} className="bg-light border-right pt-5 px-2">
       <div className="d-flex justify-content-between align-items-center mb-2 pl-2">
-        <span>Каналы</span>
+        <span>{t('chat.channels')}</span>
         <Button variant="outline-primary" size="sm" onClick={() => dispatch(setModalInfo({ modalType: 'adding', item: null }))}>+</Button>
       </div>
       <Nav variant="pills" fill className="flex-column" as="ul">

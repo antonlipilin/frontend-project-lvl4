@@ -1,13 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Col } from 'react-bootstrap';
 import { selectors } from '../slices/messagesSlice.js';
 import NewMessageForm from './NewMessageForm.jsx';
 
 const Messages = () => {
   const messages = useSelector(selectors.selectAll);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const { currentChannelId, entities } = useSelector((state) => state.channels);
+  const { t } = useTranslation();
   const messagesByChannelId = messages.filter((message) => message.channelId === currentChannelId);
+  const channelName = entities[currentChannelId]?.name;
+  const messagesCount = messagesByChannelId.length;
   const messagesBoxRef = useRef();
 
   const handleChatScroll = () => {
@@ -58,14 +62,18 @@ const Messages = () => {
     <Col className="p-0 d-flex flex-column h-100">
       <div className="small p-3 mb-3 bg-light border-bottom">
         <p className="mb-0">
-          <b># Имя чата</b>
+          <b>
+            #
+            {' '}
+            {channelName}
+          </b>
         </p>
-        <span>Количество сообщений</span>
+        <span>{t('chat.message', { count: messagesCount })}</span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messagesBoxRef}>
         {renderMessages()}
       </div>
-      <NewMessageForm />
+      <NewMessageForm currentChannelId={currentChannelId} />
     </Col>
   );
 };
