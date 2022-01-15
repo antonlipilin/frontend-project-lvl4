@@ -1,9 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { Col } from 'react-bootstrap';
 import { selectors } from '../slices/messagesSlice.js';
 import NewMessageForm from './NewMessageForm.jsx';
+
+filter.loadDictionary('ru');
 
 const Messages = () => {
   const messages = useSelector(selectors.selectAll);
@@ -53,7 +56,7 @@ const Messages = () => {
           :
         </b>
         {' '}
-        {message.text}
+        {filter.clean(message.text)}
       </div>
     ));
   };
