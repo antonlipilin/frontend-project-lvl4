@@ -55,8 +55,8 @@ const ru = {
       delete: 'Удалить',
       rename: 'Переименовать',
       successAddChannel: 'Канал создан',
-      successRemoveChannel: 'Канал переименован',
-      successRenameChannel: 'Канал удалён',
+      successRemoveChannel: 'Канал удалён',
+      successRenameChannel: 'Канал переименован',
     },
   },
 };
