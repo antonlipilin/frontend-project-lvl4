@@ -2,6 +2,7 @@ import React, {
   useContext,
 } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../contexts/socket.jsx';
 
@@ -10,10 +11,17 @@ const Remove = ({ item, handleModalClose }) => {
   const { t } = useTranslation();
 
   const handleChannelRemove = () => {
-    socket.emit('removeChannel', { id: item.id }, (response) => {
-      console.log(response);
+    try {
+      socket.emit('removeChannel', { id: item.id }, (response) => {
+        console.log(response);
+      });
       handleModalClose();
-    });
+      toast.success(t('chat.successRemoveChannel'));
+    } catch (err) {
+      console.log(err);
+      toast.error(t('errors.unknown'));
+      throw err;
+    }
   };
 
   return (

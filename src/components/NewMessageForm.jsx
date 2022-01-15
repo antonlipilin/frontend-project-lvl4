@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { SocketContext } from '../contexts/socket.jsx';
@@ -28,13 +29,19 @@ const NewMessageForm = ({ currentChannelId }) => {
       text: '',
     },
     onSubmit: (values) => {
-      const { username } = JSON.parse(localStorage.getItem('userId'));
-      const { text } = values;
-      const message = { text, username, channelId: currentChannelId };
-      socket.emit('newMessage', message, (response) => {
-        console.log(response.status);
-      });
-      formik.resetForm();
+      try {
+        const { username } = JSON.parse(localStorage.getItem('userId'));
+        const { text } = values;
+        const message = { text, username, channelId: currentChannelId };
+        socket.emit('newMessage', message, (response) => {
+          console.log(response.status);
+        });
+        formik.resetForm();
+      } catch (err) {
+        console.log(err);
+        toast.error(t('errors.unknown'));
+        throw err;
+      }
     },
   });
 

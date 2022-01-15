@@ -3,6 +3,8 @@ import {
   BrowserRouter as Router, Routes, Route, Navigate,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/App.scss';
 import store from '../slices/index.js';
 import useAuth from '../hooks/index.jsx';
@@ -54,6 +56,7 @@ const App = () => (
           <Route path="/signup" element={<SignupForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer />
       </Router>
     </AuthProvider>
   </Provider>

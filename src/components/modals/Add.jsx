@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors, changeCurrentChannel } from '../../slices/channelsSlice.js';
@@ -35,13 +36,19 @@ const Add = ({ handleModalClose }) => {
         return;
       }
 
-      const newChannel = { name };
-
-      socket.emit('newChannel', newChannel, (response) => {
-        const { data: { id } } = response;
-        dispatch(changeCurrentChannel({ id }));
-      });
-      handleModalClose();
+      try {
+        const newChannel = { name };
+        socket.emit('newChannel', newChannel, (response) => {
+          const { data: { id } } = response;
+          dispatch(changeCurrentChannel({ id }));
+        });
+        handleModalClose();
+        toast.success(t('chat.successAddChannel'));
+      } catch (err) {
+        console.log(err);
+        toast.error(t('errors.unknown'));
+        throw err;
+      }
     },
   });
 

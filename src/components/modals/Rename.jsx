@@ -4,6 +4,7 @@ import React, {
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors } from '../../slices/channelsSlice.js';
 import { SocketContext } from '../../contexts/socket.jsx';
@@ -25,21 +26,26 @@ const Rename = ({ item, handleModalClose }) => {
     },
     onSubmit: (values) => {
       const { name } = values;
-      const existingChannel = channels.find((channel) => channel.name === name);
+      const channel = channels.find((c) => c.name === name);
 
-      if (existingChannel) {
+      if (channel) {
         setIsInvalid(true);
         inputRef.current.select();
         // eslint-disable-next-line no-useless-return
         return;
       }
 
-      const channel = { name, id: item.id };
-
-      socket.emit('renameChannel', channel, (response) => {
-        console.log(response);
-      });
-      handleModalClose();
+      try {
+        const newChannelData = { name, id: item.id };
+        socket.emit('renameChannel', newChannelData, (response) => {
+          console.log(response);
+        });
+        handleModalClose();
+        toast.success(t('chat.successRenameChannel'));
+      } catch (err) {
+        console.log(err);
+        toast.error(t('errors.unknown'));
+      }
     },
   });
 
