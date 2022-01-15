@@ -9,6 +9,7 @@ const ru = {
       confirmPassword: 'Пароли должны совпадать',
       registrationFailed: 'Такой пользователь уже существует',
       uniqueChannelName: 'Имя канала должно быть уникальным',
+      unknown: 'Неизвестная ошибка. Повторите попытку позже',
     },
     loginForm: {
       login: 'Введите логин',
@@ -53,6 +54,9 @@ const ru = {
       newMessagePlaceholder: 'Введите сообщение...',
       delete: 'Удалить',
       rename: 'Переименовать',
+      successAddChannel: 'Канал создан',
+      successRemoveChannel: 'Канал переименован',
+      successRenameChannel: 'Канал удалён',
     },
   },
 };
