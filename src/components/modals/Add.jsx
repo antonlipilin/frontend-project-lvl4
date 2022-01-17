@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors, changeCurrentChannel } from '../../slices/channelsSlice.js';
-import { SocketContext } from '../../contexts/socket.jsx';
+import SocketContext from '../../contexts/socket.jsx';
 
 const Add = ({ handleModalClose }) => {
   const [isInvalid, setIsInvalid] = useState(false);

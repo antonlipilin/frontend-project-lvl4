@@ -8,7 +8,7 @@ import getModal from './modals/index.js';
 import {
   fetchChannels, selectors, addChannel, removeChannel, renameChannel,
 } from '../slices/channelsSlice.js';
-import { SocketContext } from '../contexts/socket.jsx';
+import SocketContext from '../contexts/socket.jsx';
 import { setModalInfo } from '../slices/UISlice.js';
 import Channel from './Channel.jsx';
 

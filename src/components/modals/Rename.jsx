@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors } from '../../slices/channelsSlice.js';
-import { SocketContext } from '../../contexts/socket.jsx';
+import SocketContext from '../../contexts/socket.jsx';
 
 const Rename = ({ item, handleModalClose }) => {
   const [isInvalid, setIsInvalid] = useState(false);
