@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/initApp.js",
   "type": "module",
   "scripts": {
     "test": "echo 'no tests for this project'",
