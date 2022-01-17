@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import App from './components/App.jsx';
 import i18nextInstance from './i18n.js';
 
-const root = document.querySelector('#root');
+const root = document.querySelector('#chat');
 
 render(
   <I18nextProvider i18n={i18nextInstance}>
